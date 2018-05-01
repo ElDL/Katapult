@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CameraRotationScript : MonoBehaviour {
 
@@ -14,6 +12,10 @@ public class CameraRotationScript : MonoBehaviour {
     public Vector3 spectatorPosition;
     public GameObject spectatorTarget;
 
+
+    public float explosionRadius = 10;
+    public float explosionForce = 50;
+
     void Start()
     {//Set up things on the start method
         point = target.transform.position;//get target's coords
@@ -24,10 +26,10 @@ public class CameraRotationScript : MonoBehaviour {
     void Update()
     {//makes the camera rotate around "point" coords, rotating around its Y axis given the mouse move events values
         Vector3 forwardDirection = this.transform.forward.normalized;
+        Rigidbody rb = target.GetComponent<Rigidbody>();
 
         if (Input.GetMouseButtonDown(0) && flagForce)
-        {   
-            Rigidbody rb = target.GetComponent<Rigidbody>();
+        { 
             Vector3 force = new Vector3(forwardDirection.x * forceToApply, forwardDirection.y * forceToApply, forwardDirection.z * forceToApply);
             rb.AddForce(force);
             flagForce = false;
@@ -45,7 +47,24 @@ public class CameraRotationScript : MonoBehaviour {
             float mouseY = Input.GetAxis("Mouse Y");
             transform.RotateAround(point, Vector3.up, mouseX * Time.deltaTime * speedMod);
             transform.RotateAround(point, Vector3.Cross(forwardDirection, Vector3.up), mouseY * Time.deltaTime * speedMod);
+        } else
+        {
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                reloadScene();
+            }
+            if (Input.GetMouseButtonDown(1))
+            {
+                rb.AddExplosionForce(explosionForce, target.transform.position, explosionRadius);
+                //Destroy(target);
+            }
         }
+    }
+
+    private void reloadScene()
+    {
+        Scene scene = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(scene.name);
     }
 
     private void setSpectatorCamera()

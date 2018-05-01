@@ -633,8 +633,10 @@ MonoBehaviour:
   target: {fileID: 559618896}
   speedMod: 100
   forceToApply: 200000
-  spectatorPosition: {x: 15, y: 20, z: -5}
+  spectatorPosition: {x: 16, y: 37, z: -5}
   spectatorTarget: {fileID: 563976040}
+  explosionRadius: 1000
+  explosionForce: 500000
 --- !u!1001 &195618177
 Prefab:
   m_ObjectHideFlags: 0
@@ -1089,7 +1091,7 @@ Transform:
   m_GameObject: {fileID: 296292942}
   m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
   m_LocalPosition: {x: 0, y: 3, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 0.9926977, z: 1.1070825}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
