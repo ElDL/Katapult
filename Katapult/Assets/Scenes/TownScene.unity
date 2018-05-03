@@ -635,8 +635,10 @@ MonoBehaviour:
   forceToApply: 200000
   spectatorPosition: {x: 16, y: 37, z: -5}
   spectatorTarget: {fileID: 563976040}
-  explosionRadius: 1000
-  explosionForce: 500000
+  explosionRadius: 100
+  explosionForce: 50
+  explosionEffect: {fileID: 1000011797152326, guid: acf39d9f4addf294d93fa56fa373961b,
+    type: 2}
 --- !u!1001 &195618177
 Prefab:
   m_ObjectHideFlags: 0

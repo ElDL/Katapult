@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class CameraRotationScript : MonoBehaviour {
@@ -13,8 +14,11 @@ public class CameraRotationScript : MonoBehaviour {
     public GameObject spectatorTarget;
 
 
-    public float explosionRadius = 10;
-    public float explosionForce = 50;
+    public float explosionRadius = 10f;
+    public float explosionForce = 50f;
+    public GameObject explosionEffect;
+
+    private bool hasExploded = false;
 
     void Start()
     {//Set up things on the start method
@@ -53,12 +57,31 @@ public class CameraRotationScript : MonoBehaviour {
             {
                 reloadScene();
             }
-            if (Input.GetMouseButtonDown(1))
+            if (Input.GetMouseButtonDown(1) && !hasExploded)
             {
-                rb.AddExplosionForce(explosionForce, target.transform.position, explosionRadius);
-                //Destroy(target);
+                explode(target);
+                hasExploded = true;
             }
         }
+    }
+
+    private void explode(GameObject target)
+    {
+        Vector3 position = target.transform.position;
+        Instantiate(explosionEffect, position, target.transform.rotation);
+
+        
+        Collider[] colliders = Physics.OverlapSphere(position, explosionRadius);
+        foreach (Collider nearbyObject in colliders)
+        {
+            Rigidbody rb = nearbyObject.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.AddExplosionForce(explosionForce, position, explosionRadius, 1, ForceMode.Impulse);
+            }
+        }
+
+        //Destroy(target);
     }
 
     private void reloadScene()
